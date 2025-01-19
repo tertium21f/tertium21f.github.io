@@ -3,16 +3,16 @@
 //=================================
 
 const products = [
-    { id: 1, name: "iPhone", price: 20000, qty: 1, img: "https://via.placeholder.com/150",badge:"new"},
-    { id: 2, name: "AirPod Pro", price: 7000, qty: 1, img: "https://via.placeholder.com/150",badge:"promotion" },
-    { id: 3, name: "Home pod", price: 10000, qty: 1, img: "https://via.placeholder.com/150",badge:""  },
-    { id: 4, name: "Aurora Wireless", price: 2500, qty: 1, img: "./assets/image/thm_product4.png",badge:""  },
-    { id: 5, name: "Apple Watch", price: 7500, qty: 1, img: "https://via.placeholder.com/150",badge:""  },
-    { id: 6, name: "iPad air", price: 18000, qty: 1, img: "https://via.placeholder.com/150" ,badge:"" },
-    { id: 7, name: "Air Tag", price: 18000, qty: 1, img: "https://via.placeholder.com/150",badge:""  },
-    { id: 8, name: "Airpod MAX", price: 18000, qty: 1, img: "https://via.placeholder.com/150",badge:""  },
+    { id: 1, name: "iPhone", price: 20000, qty: 1, img: "https://via.placeholder.com/150", badge: "new" },
+    { id: 2, name: "AirPod Pro", price: 7000, qty: 1, img: "https://via.placeholder.com/150", badge: "promotion" },
+    { id: 3, name: "Home pod", price: 10000, qty: 1, img: "https://via.placeholder.com/150", badge: "" },
+    { id: 4, name: "Aurora Wireless", price: 2500, qty: 1, img: "./assets/image/thm_product4.png", badge: "" },
+    { id: 5, name: "Apple Watch", price: 7500, qty: 1, img: "https://via.placeholder.com/150", badge: "" },
+    { id: 6, name: "iPad air", price: 18000, qty: 1, img: "https://via.placeholder.com/150", badge: "" },
+    { id: 7, name: "Air Tag", price: 18000, qty: 1, img: "https://via.placeholder.com/150", badge: "" },
+    { id: 8, name: "Airpod MAX", price: 18000, qty: 1, img: "https://via.placeholder.com/150", badge: "" },
     { id: 9, name: "Airpod 3", price: 18000, qty: 1, img: "https://via.placeholder.com/150" },
-    { id: 10, name: "iPad mini", price: 18000, qty: 1, img: "https://via.placeholder.com/150" ,badge:"" },
+    { id: 10, name: "iPad mini", price: 18000, qty: 1, img: "https://via.placeholder.com/150", badge: "" },
 ];
 
 
@@ -102,15 +102,23 @@ function renderProductSlide() {
     productSlide.innerHTML = "";
 
     products.forEach(product => {
+        // ตรวจสอบว่ามี badge หรือไม่
+        const badgeHTML = product.badge
+            ? `<span class="badge bg-danger position-absolute top-0 start-0 m-2">${product.badge}</span>`
+            : '';
+
         const cardHTML = `
-            <div class="card">
-                <img src="${product.img}" class="card-img-top" alt="${product.name}">
-                <div class="card-body">
-                    <h5 class="card-title">${product.name}</h5>
-                    <p class="card-text">Price: ${product.price} THB</p>
-                    <button class="btn btn-primary" onclick="addToCart(${product.id})">
-                        Add to Cart
-                    </button>
+            <div class="col-md-3 mb-4">
+                <div class="card product-card border-0 rounded-4 shadow-sm position-relative">
+                    <div class="card-body text-center p-4">
+                        ${badgeHTML} <!-- แทรก badge ถ้ามี -->
+                        <img src="${product.img}" alt="${product.name}" class="card-img-top rounded-4 mb-3" style="max-height: 150px; object-fit: cover;">
+                        <h5 class="card-title mb-2">${product.name}</h5>
+                        <p class="card-text text-muted mb-4">${product.price.toLocaleString('th-TH')} THB</p>
+                        <button class="btn btn-primary rounded-pill px-4 py-2" onclick="addToCart(${product.id})">
+                            Add to Cart
+                        </button>
+                    </div>
                 </div>
             </div>
         `;
@@ -255,38 +263,6 @@ function filterProducts() {
         }
     });
 }
-//=================================
-// TEST 
-//=================================
-
-function renderProductSlide() {
-    const productSlide = document.getElementById("product-slide");
-    productSlide.innerHTML = "";
-
-    products.forEach(product => {
-        // ตรวจสอบว่ามี badge หรือไม่
-        const badgeHTML = product.badge
-            ? `<span class="badge bg-danger position-absolute top-0 start-0 m-2">${product.badge}</span>`
-            : '';
-
-        const cardHTML = `
-            <div class="col-md-3 mb-4">
-                <div class="card product-card border-0 rounded-4 shadow-sm position-relative">
-                    <div class="card-body text-center p-4">
-                        ${badgeHTML} <!-- แทรก badge ถ้ามี -->
-                        <img src="${product.img}" alt="${product.name}" class="card-img-top rounded-4 mb-3" style="max-height: 150px; object-fit: cover;">
-                        <h5 class="card-title mb-2">${product.name}</h5>
-                        <p class="card-text text-muted mb-4">${product.price.toLocaleString('th-TH')} THB</p>
-                        <button class="btn btn-primary rounded-pill px-4 py-2" onclick="addToCart(${product.id})">
-                            Add to Cart
-                        </button>
-                    </div>
-                </div>
-            </div>
-        `;
-        productSlide.innerHTML += cardHTML;
-    });
-}
 
 function showPopupNotification(message) {
     const popup = document.getElementById("popup-notification");
@@ -294,12 +270,20 @@ function showPopupNotification(message) {
     popup.classList.remove("hidden");
     popup.classList.add("visible");
 
-    // ซ่อน Popup หลังจาก 3 วินาที
+    // ซ่อน Popup หลังจาก 2 วินาที
     setTimeout(() => {
         popup.classList.remove("visible");
         popup.classList.add("hidden");
-    }, 3000);
+    }, 2000);
 }
+
+
+
+//=================================
+// TEST 
+//=================================
+
+
 
 
 //=================================

@@ -1,0 +1,144 @@
+#promo-top a:hover {
+    background-color: #201331;
+}
+
+.carousel-caption {
+    bottom: 10%; /* ปรับตำแหน่ง caption ให้สูงขึ้น */
+}
+
+.carousel-caption button {
+    max-width: 200px; /* จำกัดขนาดสูงสุดของปุ่ม */
+    width: 100%;      /* ให้ปุ่มขยายเต็มที่ใน column */
+}
+
+.card-slider {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    gap: 1rem;
+}
+
+.card-slider::-webkit-scrollbar {
+    height: 8px;
+}
+
+.card-slider::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 4px;
+}
+
+.card-slider::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}
+
+.card {
+    flex: 0 0 calc(25% - 1rem); /* 4 cards per row */
+    min-width: 200px;
+    display: flex;
+    flex-direction: column; /* จัดเรียงเนื้อหาในแนวตั้ง */
+    justify-content: space-between; /* กระจายเนื้อหาให้ช่องว่างเท่ากัน */
+    height: 100%; /* ให้การ์ดสูงเต็มพื้นที่ */
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column; /* จัดเรียงเนื้อหาในแนวตั้ง */
+    flex-grow: 1; /* ให้เนื้อหาเต็มพื้นที่ว่าง */
+    justify-content: space-between; /* ดันปุ่มไปด้านล่าง */
+    
+}
+
+
+/* ปรับส่วนหน้า product เพิ่ม */
+.product-card {
+    transition: all 0.3s ease;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.product-image {
+    transition: all 0.5s ease;
+    height: 300px;
+    object-fit: cover;
+}
+
+.product-card:hover .product-image {
+    transform: scale(1.05);
+}
+
+
+.price {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+
+/* TEST */
+
+/* Custom Card Styling */
+.card.product-card {
+    background: #f9f9f9;
+    border: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card.product-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.card.product-card img {
+    transition: transform 0.3s ease;
+}
+
+.card.product-card:hover img {
+    transform: scale(1.05);
+}
+
+.card.product-card .badge {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.card.product-card .btn {
+    background:#0d6efd;
+    border: none;
+}
+
+.card.product-card .btn:hover {
+    background: #e04848;
+}
+
+
+/* Popup Notification */
+.popup-notification {
+    position: fixed;
+    top: -50px; /* ซ่อน Popup เริ่มต้นอยู่ด้านบน */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #28a745; /* สีเขียวสำหรับ Success */
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-size: 16px;
+    z-index: 1000;
+    opacity: 0;
+    transition: all 0.5s ease;
+}
+
+.popup-notification.visible {
+    top: 20px; /* ตำแหน่งเมื่อแสดง */
+    opacity: 1;
+}
+
+.popup-notification.hidden {
+    top: -50px; /* ซ่อน Popup โดยเลื่อนกลับด้านบน */
+    opacity: 0;
+}

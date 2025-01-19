@@ -3,12 +3,15 @@
 }
 
 .carousel-caption {
-    bottom: 10%; /* ปรับตำแหน่ง caption ให้สูงขึ้น */
+    bottom: 10%;
+    /* ปรับตำแหน่ง caption ให้สูงขึ้น */
 }
 
 .carousel-caption button {
-    max-width: 200px; /* จำกัดขนาดสูงสุดของปุ่ม */
-    width: 100%;      /* ให้ปุ่มขยายเต็มที่ใน column */
+    max-width: 200px;
+    /* จำกัดขนาดสูงสุดของปุ่ม */
+    width: 100%;
+    /* ให้ปุ่มขยายเต็มที่ใน column */
 }
 
 .card-slider {
@@ -32,20 +35,27 @@
 }
 
 .card {
-    flex: 0 0 calc(25% - 1rem); /* 4 cards per row */
+    flex: 0 0 calc(25% - 1rem);
+    /* 4 cards per row */
     min-width: 200px;
     display: flex;
-    flex-direction: column; /* จัดเรียงเนื้อหาในแนวตั้ง */
-    justify-content: space-between; /* กระจายเนื้อหาให้ช่องว่างเท่ากัน */
-    height: 100%; /* ให้การ์ดสูงเต็มพื้นที่ */
+    flex-direction: column;
+    /* จัดเรียงเนื้อหาในแนวตั้ง */
+    justify-content: space-between;
+    /* กระจายเนื้อหาให้ช่องว่างเท่ากัน */
+    height: 100%;
+    /* ให้การ์ดสูงเต็มพื้นที่ */
 }
 
 .card-body {
     display: flex;
-    flex-direction: column; /* จัดเรียงเนื้อหาในแนวตั้ง */
-    flex-grow: 1; /* ให้เนื้อหาเต็มพื้นที่ว่าง */
-    justify-content: space-between; /* ดันปุ่มไปด้านล่าง */
-    
+    flex-direction: column;
+    /* จัดเรียงเนื้อหาในแนวตั้ง */
+    flex-grow: 1;
+    /* ให้เนื้อหาเต็มพื้นที่ว่าง */
+    justify-content: space-between;
+    /* ดันปุ่มไปด้านล่าง */
+
 }
 
 
@@ -107,22 +117,24 @@
 }
 
 .card.product-card .btn {
-    background:#0d6efd;
+    background: #0d6efd;
     border: none;
 }
 
 .card.product-card .btn:hover {
-    background: #e04848;
+    background: #28a745;
 }
 
 
 /* Popup Notification */
 .popup-notification {
     position: fixed;
-    top: -50px; /* ซ่อน Popup เริ่มต้นอยู่ด้านบน */
+    top: -50px;
+    /* ซ่อน Popup เริ่มต้นอยู่ด้านบน */
     left: 50%;
     transform: translateX(-50%);
-    background-color: #28a745; /* สีเขียวสำหรับ Success */
+    background-color: #28a745;
+    /* สีเขียวสำหรับ Success */
     color: #fff;
     padding: 15px 20px;
     border-radius: 8px;
@@ -134,11 +146,62 @@
 }
 
 .popup-notification.visible {
-    top: 20px; /* ตำแหน่งเมื่อแสดง */
+    top: 80px;
+    /* ตำแหน่งเมื่อแสดง */
     opacity: 1;
 }
 
 .popup-notification.hidden {
-    top: -50px; /* ซ่อน Popup โดยเลื่อนกลับด้านบน */
+    top: -100px;
+    /* ซ่อน Popup โดยเลื่อนกลับด้านบน */
     opacity: 0;
+}
+
+/* ซ่อนลูกศรสำหรับ input ที่มี id="cart-qty" */
+#cart-qty::-webkit-inner-spin-button,
+#cart-qty::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1020;
+    /* ให้ Navbar อยู่เหนือเนื้อหาอื่น */
+    background-color: #f8f9fa;
+    /* พื้นหลังเพื่อให้มองเห็นชัด */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* เพิ่มเงา */
+}
+
+
+/* Order Received */
+/* Popup สำหรับ Order Received */
+.order-popup {
+    position: fixed;
+    top: -50px;
+    /* เริ่มจากด้านบนสุด (ซ่อนอยู่) */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #28a745;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    z-index: 9999;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    /* เริ่มด้วยความโปร่งใส */
+    transition: all 0.5s ease-in-out;
+}
+
+/* เมื่อ Popup แสดง */
+.order-popup.show {
+    top: 20px;
+    /* เลื่อนลงมาที่ตำแหน่งแสดง */
+    opacity: 1;
+    /* ทำให้เห็นชัดเจน */
 }

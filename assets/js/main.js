@@ -80,14 +80,24 @@ function removeFromCart(productId) {
 
 // แก้ไขจำนวนสินค้าภายในตะกร้า
 function updateCartItemQuantity(productId, newQty) {
-    let cart = getCart();
-    let product = cart.find(item => item.id === productId);
+    let cart = getCart(); // ดึงข้อมูลจาก localStorage
+    let product = cart.find(item => item.id === productId); // ค้นหาสินค้าที่ตรงกับ productId
+
+    // ตรวจสอบว่ามีสินค้าในตะกร้าหรือไม่
     if (product) {
-        product.quantity = newQty;
+        // ตรวจสอบว่า newQty เป็นจำนวนที่ถูกต้อง (ไม่น้อยกว่า 1)
+        if (newQty > 0) {
+            product.quantity = newQty;
+        } else {
+            // ถ้าจำนวนใหม่เป็น 0 หรือไม่ถูกต้อง ให้ลบสินค้าออกจากตะกร้า
+            cart = cart.filter(item => item.id !== productId);
+        }
     }
+
+    // บันทึกการเปลี่ยนแปลงกลับไปใน localStorage
     saveCart(cart);
     updateCartCount();
-    renderCartItems();
+    renderCartItems(); // อัปเดตการแสดงผลตะกร้า
 }
 
 
@@ -157,30 +167,47 @@ function renderProductList() {
 
 //สร้างสินค้าในหน้า cart
 function renderCartItems() {
-    let cart = getCart();
+    const cart = getCart(); // ดึงข้อมูลตะกร้าจาก localStorage
     const cartItemsContainer = document.getElementById('cart-items');
+    const cartGrandTotal = document.getElementById('cart-total'); // Total Display
+
     cartItemsContainer.innerHTML = '';
-    let total = 0;
+    let total = 0; // ราคารวมทั้งหมด
 
     cart.forEach(item => {
-        let itemTotal = item.price * item.quantity;
-        total += itemTotal;
+        const itemTotal = item.price * item.quantity;
+        total += itemTotal; // คำนวณราคารวม
 
         const row = document.createElement('tr');
         row.innerHTML = `
-            <td>${item.name}</td>
-            <td>${item.price}</td>
             <td>
-                <input type="number" class="form-control" min="1" value="${item.quantity}" onchange="updateCartItemQuantity(${item.id}, parseInt(this.value))">
+                <div class="d-flex align-items-center">
+                    <img src="${item.img}" alt="${item.name}" style="width: 50px; height: 50px; object-fit: cover; margin-right: 10px;">
+                    <div>
+                        <p class="mb-0">${item.name}</p>
+                    </div>
+                </div>
             </td>
-            <td>${itemTotal}</td>
-            <td><button class="btn btn-danger btn-sm" id="remove-product" onclick="removeFromCart(${item.id})">X</button></td>
+            <td>${item.price.toLocaleString('th-TH')} THB</td>
+            <td>
+               <div class="d-flex align-items-center">
+                    <button class="btn btn-sm btn-outline-secondary" onclick="updateCartItemQuantity(${item.id}, ${item.quantity - 1})">-</button>
+                    <input type="number" class="form-control mx-2 text-center" style="width: 60px;" id="cart-qty" min="1" value="${item.quantity}" onchange="updateCartItemQuantity(${item.id}, parseInt(this.value))">
+                    <button class="btn btn-sm btn-outline-secondary" onclick="updateCartItemQuantity(${item.id}, ${item.quantity + 1})">+</button>
+                </div>
+            </td>
+            <td>${itemTotal.toLocaleString('th-TH')} THB</td>
+            <td>
+                <button class="btn btn-sm btn-danger" onclick="removeFromCart(${item.id})">X</button>
+            </td>
         `;
         cartItemsContainer.appendChild(row);
     });
 
-    document.getElementById('checkout-total').textContent = 'Total: ' + total + ' THB';
+    // แสดงยอดรวม Grand Total
+    cartGrandTotal.textContent = total.toLocaleString('th-TH') + ' THB';
 }
+
 //สร้างรายการสรุปหน้า check out
 function renderCheckoutItems() {
     let cart = getCart(); // ดึงข้อมูลตะกร้าจาก localStorage
@@ -197,7 +224,7 @@ function renderCheckoutItems() {
         // สร้าง <li> สำหรับแต่ละสินค้า
         const li = document.createElement('li');
         li.className = 'list-group-item d-flex justify-content-between align-items-center';
-        li.innerHTML = `${item.name} (x${item.quantity}) <span>${itemTotal} THB</span>`;
+        li.innerHTML = `${item.name} (x${item.quantity}) <span>${itemTotal.toLocaleString('th-TH')} THB</span>`;
         checkoutItems.appendChild(li);
     });
 
@@ -208,7 +235,7 @@ function renderCheckoutItems() {
     // แสดงยอดรวม
     const checkoutTotal = document.getElementById('checkout-total');
     if (checkoutTotal) {
-        checkoutTotal.textContent = 'Total: ' + total + ' THB';
+        checkoutTotal.textContent = 'Total: ' + total.toLocaleString('th-TH') + ' THB';
     }
 }
 
@@ -278,12 +305,31 @@ function showPopupNotification(message) {
 }
 
 
+// ฟังก์ชันสำหรับยืนยันการสั่งซื้อ
+function handleConfirmOrder(event) {
+    event.preventDefault(); // ป้องกันการ reload หน้า
 
-//=================================
-// TEST 
-//=================================
+    // แสดง Popup
+    const popup = document.createElement('div');
+    popup.textContent = "Order Received";
+    popup.className = 'order-popup';
+    document.body.appendChild(popup);
 
+    // แสดง Popup พร้อม Animation
+    setTimeout(() => {
+        popup.classList.add('show');
+    }, 10);
 
+    // ซ่อน Popup หลัง 3 วินาที
+    setTimeout(() => {
+        popup.classList.remove('show');
+        setTimeout(() => {
+            popup.remove(); // ลบ Popup ออกจาก DOM
+            localStorage.clear(); // ล้าง localStorage
+            window.location.href = "index.html";
+        }, 500); 
+    }, 800);
+}
 
 
 //=================================

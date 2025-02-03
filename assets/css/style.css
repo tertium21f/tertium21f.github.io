@@ -2,11 +2,6 @@
     background-color: #201331;
 }
 
-.carousel-caption {
-    bottom: 10%;
-    /* ปรับตำแหน่ง caption ให้สูงขึ้น */
-}
-
 .carousel-caption button {
     max-width: 200px;
     /* จำกัดขนาดสูงสุดของปุ่ม */
@@ -89,7 +84,6 @@
 }
 
 
-/* TEST */
 
 /* Custom Card Styling */
 .card.product-card {
@@ -105,6 +99,9 @@
 
 .card.product-card img {
     transition: transform 0.3s ease;
+    width: 100%; 
+    height: auto; 
+    object-fit: cover;
 }
 
 .card.product-card:hover img {
@@ -118,11 +115,14 @@
 
 .card.product-card .btn {
     background: #0d6efd;
+    max-width: 80%;
+    display: block;
+    margin: 0 auto;
     border: none;
 }
 
 .card.product-card .btn:hover {
-    background: #28a745;
+    background: #0660d7;
 }
 
 
@@ -177,7 +177,6 @@
 }
 
 
-/* Order Received */
 /* Popup สำหรับ Order Received */
 .order-popup {
     position: fixed;
@@ -205,3 +204,26 @@
     opacity: 1;
     /* ทำให้เห็นชัดเจน */
 }
+
+
+.search-container {
+    position: relative;
+}
+
+.search-input {
+    height: 50px;
+    margin-top: 30px;
+    border-radius: 30px;
+    padding-left: 35px;
+    border: none;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.search-icon {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    transform: translateY(-50%);
+    color: #888;
+}
+

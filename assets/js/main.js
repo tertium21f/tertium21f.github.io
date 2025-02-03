@@ -3,16 +3,16 @@
 //=================================
 
 const products = [
-    { id: 1, name: "iPhone", price: 20000, qty: 1, img: "https://via.placeholder.com/150", badge: "new" },
-    { id: 2, name: "AirPod Pro", price: 7000, qty: 1, img: "https://via.placeholder.com/150", badge: "promotion" },
-    { id: 3, name: "Home pod", price: 10000, qty: 1, img: "https://via.placeholder.com/150", badge: "" },
+    { id: 1, name: "iPhone", price: 20000, qty: 1, img: "./assets/image/thm_product1.png", badge: "new" },
+    { id: 2, name: "AirPod Pro", price: 7000, qty: 1, img: "./assets/image/thm_product2.png", badge: "promotion" },
+    { id: 3, name: "Home pod", price: 10000, qty: 1, img: "./assets/image/thm_product3.png", badge: "" },
     { id: 4, name: "Aurora Wireless", price: 2500, qty: 1, img: "./assets/image/thm_product4.png", badge: "" },
-    { id: 5, name: "Apple Watch", price: 7500, qty: 1, img: "https://via.placeholder.com/150", badge: "" },
-    { id: 6, name: "iPad air", price: 18000, qty: 1, img: "https://via.placeholder.com/150", badge: "" },
-    { id: 7, name: "Air Tag", price: 18000, qty: 1, img: "https://via.placeholder.com/150", badge: "" },
-    { id: 8, name: "Airpod MAX", price: 18000, qty: 1, img: "https://via.placeholder.com/150", badge: "" },
-    { id: 9, name: "Airpod 3", price: 18000, qty: 1, img: "https://via.placeholder.com/150" },
-    { id: 10, name: "iPad mini", price: 18000, qty: 1, img: "https://via.placeholder.com/150", badge: "" },
+    { id: 5, name: "Apple Watch", price: 7500, qty: 1, img: "./assets/image/thm_product5.png", badge: "" },
+    { id: 6, name: "iPad air", price: 18000, qty: 1, img: "./assets/image/thm_product6.png", badge: "" },
+    { id: 7, name: "Air Tag", price: 18000, qty: 1, img: "./assets/image/thm_product7.png", badge: "" },
+    { id: 8, name: "Airpod MAX", price: 18000, qty: 1, img: "./assets/image/thm_product8.png", badge: "" },
+    { id: 9, name: "Airpod 3", price: 18000, qty: 1, img: "./assets/image/thm_product9.png", badge: "" },
+    { id: 10, name: "iPad mini", price: 18000, qty: 1, img: "./assets/image/thm_product10.png", badge: "" },
 ];
 
 
@@ -106,6 +106,34 @@ function updateCartItemQuantity(productId, newQty) {
 // Rendering Functions
 //=================================
 
+//สร้าง navbar 
+function renderNavbar(){
+    const navBar = document.getElementById("nav-bar");
+    if (!navBar) return;
+
+    navBar.innerHTML = `
+    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-navbar">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">MAN-GO!</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="products.html">Products</a></li>
+                    <li class="nav-item"><a class="nav-link position-relative" href="cart.html">Cart <span
+                                class="badge bg-primary" id="cart-count">0</span></a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    `;
+    
+}
+
+
+
 //สร้าง product card slide ที่หน้า index
 function renderProductSlide() {
     const productSlide = document.getElementById("product-slide");
@@ -119,13 +147,18 @@ function renderProductSlide() {
 
         const cardHTML = `
             <div class="col-md-3 mb-4">
+            <!-- สร้าง card สำหรับแต่ละสินค้า -->
                 <div class="card product-card border-0 rounded-4 shadow-sm position-relative">
+                <!-- ส่วนเนื้อหาของ card -->
                     <div class="card-body text-center p-4">
                         ${badgeHTML} <!-- แทรก badge ถ้ามี -->
-                        <img src="${product.img}" alt="${product.name}" class="card-img-top rounded-4 mb-3" style="max-height: 150px; object-fit: cover;">
+                        <!-- ส่วนรูปภาพของ card -->
+                        <img src="${product.img}" alt="${product.name}" class="card-img-top rounded-4 mb-3">
+                        <!-- ชื่อสินค้า-->
                         <h5 class="card-title mb-2">${product.name}</h5>
+                        <!-- ราคาสินค้า -->
                         <p class="card-text text-muted mb-4">${product.price.toLocaleString('th-TH')} THB</p>
-                        <button class="btn btn-primary rounded-pill px-4 py-2" onclick="addToCart(${product.id})">
+                        <button class="btn btn-primary rounded-pill w-75 py-2" onclick="addToCart(${product.id})">
                             Add to Cart
                         </button>
                     </div>
@@ -143,7 +176,7 @@ function renderProductList() {
     products.forEach(product => {
         const productCard = `
             <div class="col-md-4 mb-4">
-                <div class="card product-card border-0 rounded-4 shadow-sm">
+                <div class="card product-card border-0 rounded-4 shadow-sm d-flex flex-column">
                     <div class="position-relative">
                         <div class="overflow-hidden">
                             <img src="${product.img}" class="card-img-top" alt="${product.name}">
@@ -152,7 +185,7 @@ function renderProductList() {
                     <div class="card-body p-4">
                         <h5 class="card-title mb-3 fw-bold">${product.name}</h5>
                         <div class="d-flex justify-content-between align-items-center">
-                            <span class="price">Price: ${product.price} THB</span>
+                            <span class="price">Price: ${product.price.toLocaleString('th-TH')} THB</span>
                             <button class="btn btn-primary" onclick="addToCart(${product.id})">
                                 Add to Cart
                             </button>
@@ -327,7 +360,7 @@ function handleConfirmOrder(event) {
             popup.remove(); // ลบ Popup ออกจาก DOM
             localStorage.clear(); // ล้าง localStorage
             window.location.href = "index.html";
-        }, 500); 
+        }, 500);
     }, 800);
 }
 
@@ -335,6 +368,11 @@ function handleConfirmOrder(event) {
 //=================================
 // Event Listeners
 //=================================
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    renderNavbar();
+});
 
 document.addEventListener('DOMContentLoaded', () => {
     updateCartCount();
@@ -355,4 +393,3 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('DOMContentLoaded', () => {
     renderCheckoutItems();
 });
-
